@@ -6,7 +6,7 @@ describe('1 - Teste a função fetchProducts', () => {
   test('Verifica se fetchProducts é uma função', () => {
     expect(typeof fetchProducts).toBe('function');
   });
-  test('Verifica se fetchProducts é uma função', async () => {
+  test('Verifica se fecth é chamada', async () => {
     await fetchProducts('computador')
     expect(fetch).toHaveBeenCalled();
   });
@@ -19,7 +19,7 @@ describe('1 - Teste a função fetchProducts', () => {
     const compare = await fetchProducts('computador')
     expect(compare).toEqual(computadorSearch);
   });
-  test('Verifica se há mensagem de erro quando a função não recebe parametro', async () => {
+  test('Verifica se a mensagem de erro é apropriada, quando a função não receber parâmetro', async () => {
     const emptyFunction = await fetchProducts()
     expect(emptyFunction).toEqual('You must provide an url');
   });

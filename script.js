@@ -49,6 +49,18 @@ const createProductItemElement = ({ id, title, thumbnail }) => {
   return section;
 };
 
+const itemsClass = document.querySelector('.items');
+const obj = async () => {
+  const fromFunction = await fetchProducts('computador');
+  const { results } = fromFunction;
+  results.forEach((result) => {
+    const { id, title, thumbnail } = result;
+    itemsClass.appendChild(createProductItemElement({
+      id, title, thumbnail,
+  }));
+    });
+};
+
 /**
  * Função que recupera o ID do produto passado como parâmetro.
  * @param {Element} product - Elemento do produto.
@@ -73,4 +85,5 @@ const createCartItemElement = ({ id, title, price }) => {
 };
 
 window.onload = () => { 
+  obj();
 };
