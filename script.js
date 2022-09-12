@@ -50,7 +50,7 @@ const createProductItemElement = ({ id, title, thumbnail }) => {
 };
 
 const itemsClass = document.querySelector('.items');
-const obj = async () => {
+const productList = async () => {
   const fromFunction = await fetchProducts('computador');
   const { results } = fromFunction;
   results.forEach((result) => {
@@ -85,5 +85,5 @@ const createCartItemElement = ({ id, title, price }) => {
 };
 
 window.onload = () => { 
-  obj();
+  productList();
 };
