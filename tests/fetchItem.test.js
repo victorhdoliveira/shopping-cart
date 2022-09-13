@@ -20,7 +20,7 @@ describe('2 - Teste a função fetchItem', () => {
     expect(compare).toEqual(item);
   });
   test('Verifica se a mensagem de erro é apropriada, quando a função não receber parâmetro', async () => {
-    const emptyFunction = await fetchItemnw()
+    const emptyFunction = await fetchItem()
     expect(emptyFunction).toEqual('You must provide an url');
   });
 });
