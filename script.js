@@ -77,14 +77,13 @@ const createCartItemElement = ({ id, title, price }) => {
 };
 
 const itemsClass = document.querySelector('.items');
+const productsData = document.querySelector('.cart__items');
 
 const loading = () => {
-  console.log('teste');
-  itens = document.querySelector('.items');
-    const phrase = document.createElement('div');
-    phrase.className = 'loading';
-    phrase.innerText = 'carregando...';
-    itens.appendChild(phrase);
+  const phrase = document.createElement('div');
+  phrase.className = 'loading';
+  phrase.innerText = 'carregando...';
+  itemsClass.appendChild(phrase);
   };
 
 const takeOutLoading = () => {
@@ -106,13 +105,13 @@ const productsList = async () => {
 const addItemToCart = async () => {
   loading();
   await productsList();
-  const productsData = document.querySelector('.cart__items');
   const buttons = document.querySelectorAll('.item__add');
     buttons.forEach((btn) => {
       btn.addEventListener('click', async (event) => {
       const productId = event.target.parentNode.firstChild.innerText;
       const itemData = await fetchItem(productId);  
       productsData.appendChild(createCartItemElement(itemData));
+      saveCartItems(productsData.innerHTML);
     });
 });
     takeOutLoading();
@@ -120,13 +119,28 @@ const addItemToCart = async () => {
 
 const cartCleaner = () => {
   const btnCleaner = document.querySelector('.empty-cart');
-  const productsData = document.querySelector('.cart__items');
   btnCleaner.addEventListener('click', () => {
     productsData.innerHTML = '';
   });
 };
 
+const getItem = () => {
+  const cartItens = getSavedCartItems();
+  productsData.innerHTML = cartItens;
+};
+
+const removeItensFromCart = () => {
+  const itensCart = document.querySelectorAll('.cart__items');
+  itensCart.forEach((item) => {
+    item.addEventListener('click', (event) => {
+      event.target.remove();
+  });
+});
+};
+
 window.onload = () => { 
   addItemToCart();
   cartCleaner();
+  getItem();
+  removeItensFromCart();
 };
