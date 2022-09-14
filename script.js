@@ -49,23 +49,12 @@ const createProductItemElement = ({ id, title, thumbnail }) => {
   return section;
 };
 
-const itemsClass = document.querySelector('.items');
-const productList = async () => {
-  const fromFunction = await fetchProducts('computador');
-  const { results } = fromFunction;
-  results.forEach((result) => {
-    const { id, title, thumbnail } = result;
-    itemsClass.appendChild(createProductItemElement({
-      id, title, thumbnail,
-  }));
-    });
-};
-
 /**
  * Função que recupera o ID do produto passado como parâmetro.
  * @param {Element} product - Elemento do produto.
  * @returns {string} ID do produto.
  */
+
 //  const getIdFromProductItem = (product) => product.querySelector('span.item_id').innerText;
 
 /**
@@ -87,7 +76,38 @@ const createCartItemElement = ({ id, title, price }) => {
   return li;
 };
 
+const itemsClass = document.querySelector('.items');
+
+const loading = () => {
+  console.log('teste');
+  itens = document.querySelector('.items');
+    const phrase = document.createElement('div');
+    phrase.className = 'loading';
+    phrase.innerText = 'carregando...';
+    itens.appendChild(phrase);
+  };
+
+const takeOutLoading = () => {
+  const toCharge = document.querySelectorAll('.loading');
+  toCharge.forEach((item) => {
+    item.remove();
+  });
+};
+
+const productsList = async () => {
+  const fromFunction = await fetchProducts('computador');
+  const { results } = fromFunction;
+  results.forEach((result) => {
+    const { id, title, thumbnail } = result;
+    itemsClass.appendChild(createProductItemElement({
+      id, title, thumbnail,
+  }));
+    });
+};
+
 const addItemToCart = async () => {
+  loading();
+  await productsList();
   const productsData = document.querySelector('.cart__items');
   const buttons = document.querySelectorAll('.item__add');
     buttons.forEach((btn) => {
@@ -97,18 +117,18 @@ const addItemToCart = async () => {
       productsData.appendChild(createCartItemElement(itemData));
     });
 });
+    takeOutLoading();
 };
 
 const cartCleaner = () => {
   const btnCleaner = document.querySelector('.empty-cart');
   const productsData = document.querySelector('.cart__items');
   btnCleaner.addEventListener('click', () => {
-    productsData.innerText = '';
+    productsData.innerHTML = '';
   });
 };
 
-window.onload = async () => { 
-  await productList();
-  await addItemToCart();
+window.onload = () => { 
+  addItemToCart();
   cartCleaner();
 };
