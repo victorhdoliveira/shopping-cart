@@ -5,7 +5,7 @@ const fetchItem = async (id) => {
   const itemData = await request.json();
   return itemData;
   } catch (error) {
-    return 'You must provide an url';
+    return new Error('You must provide an url');
 }
 };
 
