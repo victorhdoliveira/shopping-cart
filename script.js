@@ -88,10 +88,8 @@ const loading = () => {
   };
 
 const takeOutLoading = () => {
-  const toCharge = document.querySelectorAll('.loading');
-  toCharge.forEach((item) => {
-    item.remove();
-  });
+  const toCharge = document.querySelector('.loading');
+  toCharge.remove();
 };
 
 const productsList = async () => {
