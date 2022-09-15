@@ -65,6 +65,25 @@ const createProductItemElement = ({ id, title, thumbnail }) => {
  * @param {string} product.price - Preço do produto.
  * @returns {Element} Elemento de um item do carrinho.
  */
+ // ---------------------------------- //
+ 
+ const itemsClass = document.querySelector('.items');
+ const productsData = document.querySelector('.cart__items');
+ const totalPrice = document.createElement('div');
+  
+ const getPrice = () => {
+  const cart = document.querySelector('.cart');
+  const itensCart = document.querySelectorAll('.cart__item');
+  let sum = 0;
+  itensCart.forEach((item) => {
+  const prices = Number(item.innerText.split('$')[1]);
+  sum += prices;
+  });
+
+  totalPrice.className = 'total-price';
+  totalPrice.innerHTML = `Total: R$ ${sum.toFixed(2)}`;
+  cart.appendChild(totalPrice);
+  };
 
 const createCartItemElement = ({ id, title, price }) => {
   const li = document.createElement('li');
@@ -72,12 +91,10 @@ const createCartItemElement = ({ id, title, price }) => {
   li.innerText = `ID: ${id} | TITLE: ${title} | PRICE: $${price}`;
   li.addEventListener('click', (event) => {
     event.target.remove();
+    getPrice();
   });
   return li;
 };
-
-const itemsClass = document.querySelector('.items');
-const productsData = document.querySelector('.cart__items');
 
 const loading = () => {
   const phrase = document.createElement('div');
@@ -112,8 +129,10 @@ const addItemToCart = async () => {
       const itemData = await fetchItem(productId);  
       productsData.appendChild(createCartItemElement(itemData));
       saveCartItems(productsData.innerHTML);
+      getPrice();
     });
 });
+    getPrice();
     takeOutLoading();
 };
 
@@ -121,19 +140,22 @@ const cartCleaner = () => {
   const btnCleaner = document.querySelector('.empty-cart');
   btnCleaner.addEventListener('click', () => {
     productsData.innerHTML = '';
+    getPrice();
   });
 };
 
 const getItem = () => {
   const cartItens = getSavedCartItems();
   productsData.innerHTML = cartItens;
+  getPrice();
 };
 
-const removeItensFromCart = () => {
-  const itensCart = document.querySelectorAll('.cart__items');
+const removeItensFromCart = async () => {
+  const itensCart = document.querySelectorAll('.cart__item');
   itensCart.forEach((item) => {
     item.addEventListener('click', (event) => {
       event.target.remove();
+      getPrice();
   });
 });
 };
