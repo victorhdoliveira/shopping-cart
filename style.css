@@ -6,7 +6,7 @@
 }
 
 body {
-  background-color: rgb(246, 246, 246);
+  background-color: whitesmoke;
 }
 
 .header {
@@ -91,59 +91,104 @@ body {
   margin: 40px 0;
 }
 
+.item__price {
+  text-align: center;
+  font-weight: 550;
+  padding: 5px;
+}
+
 .item {
   display: flex;
   flex-direction: column;
-  height: auto;
+  height: 255px;
   margin: 5px;
   width: 200px;
   border: 2px solid rgb(234, 234, 233);
-  border-radius: 5px;
+  border-radius: 10px;
   box-sizing: border-box;
-}
-
-.item .item__id {
-  display: none;
-}
-
-.item .item__title {
-  display: flex;
-  align-items: center;
-  flex-grow: 1;
-  padding: 10px;
-  text-align: center;
+  background-color: white;
 }
 
 .item .item__image {
-  width: 100%;
+  width: 60%;
+  margin-left: 20%;
+}
+
+.item_id {
+  display: none;
+}
+
+
+.item .item__title {
+  display: flex;
+  align-items: flex-start;
+  flex-grow: 1;
+  padding: 10px;
+  text-align: center;
+  overflow: hidden;
+  font-family: sans-serif;
 }
 
 .item .item__add {
   background-color: rgb(10, 118, 79);
+  border-radius: 8px;
   border: 0;
   cursor: pointer;
-  margin: 0;
+  margin: 10px;
   padding: 10px;
   color: white;
+}
+
+.item__add:hover {
+  background-color: rgb(9, 88, 77);
 }
 
 .cart {
   display: flex;
   flex-basis: 32%;
   flex-flow: column wrap;
-  background-color: rgb(241, 241, 238);
-  height: 100vh;
+  background-color: whitesmoke;
+  height: 100;
 }
 
 .cart .cart__items {
   height: 500px;
   overflow-y: scroll;
+  margin-top: 50px;
+}
+
+.cart__item {
+  display: flex;
+  flex-direction: column;
+  padding: 15px;
+}
+
+.cart__items .item__image {
+  width: 75px;
+  border-radius: 15px;
+  margin-top: 5px;
+}
+
+.total-price {
+  margin-bottom: 15px;
+  font-family: Georgia, Times, serif;
 }
 
 .empty-cart {
   width: 170px;
   height: 35px;
   margin: 0 auto;
-  border: 2px solid rgb(5, 52, 219);
-  background-color: rgb(249, 249, 246);
+  cursor: pointer;
+  border: 2px solid rgb(10, 118, 79);
+  background-color: rgba(249, 249, 246, 0.61);
+  border-radius: 5%;
+}
+
+.empty-cart:hover {
+  background-color: silver;
+  font-weight: 700;
+}
+
+.cart > .empty-cart:nth-child( 2 ) {
+  order: 3;
 }

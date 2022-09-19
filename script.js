@@ -37,13 +37,15 @@ const createCustomElement = (element, className, innerText) => {
  * @param {string} product.thumbnail - URL da imagem do produto.
  * @returns {Element} Elemento de produto.
  */
-const createProductItemElement = ({ id, title, thumbnail }) => {
+
+const createProductItemElement = ({ id, title, thumbnail, price }) => {
   const section = document.createElement('section');
   section.className = 'item';
 
   section.appendChild(createCustomElement('span', 'item_id', id));
-  section.appendChild(createCustomElement('span', 'item__title', title));
   section.appendChild(createProductImageElement(thumbnail));
+  section.appendChild(createCustomElement('span', 'item__title', title));
+  section.appendChild(createCustomElement('span', 'item__price', `R$ ${price}`));
   section.appendChild(createCustomElement('button', 'item__add', 'Adicionar ao carrinho!'));
 
   return section;
@@ -70,8 +72,8 @@ const createProductItemElement = ({ id, title, thumbnail }) => {
  const itemsClass = document.querySelector('.items');
  const productsData = document.querySelector('.cart__items');
  const totalPrice = document.createElement('div');
-  
- const getPrice = () => {
+
+const getItemsPrice = () => {
   const cart = document.querySelector('.cart');
   const itensCart = document.querySelectorAll('.cart__item');
   let sum = 0;
@@ -85,13 +87,15 @@ const createProductItemElement = ({ id, title, thumbnail }) => {
   cart.appendChild(totalPrice);
   };
 
-const createCartItemElement = ({ id, title, price }) => {
+const createCartItemElement = ({ title, price, thumbnail }) => {
   const li = document.createElement('li');
   li.className = 'cart__item';
-  li.innerText = `ID: ${id} | TITLE: ${title} | PRICE: $${price}`;
+  li.innerText = `${title} 
+  R$ ${price}`;
+  li.appendChild(createProductImageElement(thumbnail));
   li.addEventListener('click', (event) => {
     event.target.remove();
-    getPrice();
+    getItemsPrice();
   });
   return li;
 };
@@ -109,12 +113,12 @@ const takeOutLoading = () => {
 };
 
 const productsList = async () => {
-  const fromFunction = await fetchProducts('computador');
+  const fromFunction = await fetchProducts('salgadinho');
   const { results } = fromFunction;
   results.forEach((result) => {
-    const { id, title, thumbnail } = result;
+    const { id, title, thumbnail, price } = result;
     itemsClass.appendChild(createProductItemElement({
-      id, title, thumbnail,
+      id, title, thumbnail, price,
   }));
     });
 };
@@ -129,10 +133,9 @@ const addItemToCart = async () => {
       const itemData = await fetchItem(productId);  
       productsData.appendChild(createCartItemElement(itemData));
       saveCartItems(productsData.innerHTML);
-      getPrice();
+      getItemsPrice();
     });
-});
-    getPrice();
+}); 
     takeOutLoading();
 };
 
@@ -140,22 +143,22 @@ const cartCleaner = () => {
   const btnCleaner = document.querySelector('.empty-cart');
   btnCleaner.addEventListener('click', () => {
     productsData.innerHTML = '';
-    getPrice();
+    getItemsPrice();
   });
 };
 
 const getItem = () => {
   const cartItens = getSavedCartItems();
   productsData.innerHTML = cartItens;
-  getPrice();
+  getItemsPrice();
 };
 
 const removeItensFromCart = async () => {
-  const itensCart = document.querySelectorAll('.cart__item');
-  itensCart.forEach((item) => {
+  const itens = document.querySelectorAll('.cart__item');
+  itens.forEach((item) => {
     item.addEventListener('click', (event) => {
       event.target.remove();
-      getPrice();
+      getItemsPrice();
   });
 });
 };
